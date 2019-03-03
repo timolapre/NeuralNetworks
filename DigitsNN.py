@@ -31,11 +31,8 @@ from kivy.clock import Clock
 Config.set('graphics', 'width', '400')
 Config.set('graphics', 'height', '400')
 
-
 def CheckDrawing():
-    DATADIR = "E:/OneDrive - Universiteit Utrecht/Documents/GitHubResporities/NN-HandwrittenCharacters/test.png"
-
-    SelfMadeData = []
+    DATADIR = "E:/OneDrive - Universiteit Utrecht/Documents/GitHubResporities/NN-HandwrittenCharacters/drawing.png"
 
     ImgArray = cv2.imread(DATADIR, cv2.IMREAD_GRAYSCALE)
     NewArray = cv2.resize(ImgArray, (img_rows,img_cols))
@@ -67,7 +64,7 @@ class MyPaintWidget(Widget):
         touch.ud['line'].points += [touch.x, touch.y]
 
     def on_touch_up(self, touch):
-        self.export_to_png("test.png")
+        self.export_to_png("drawing.png")
         
 class MyPaintApp(App):
 
@@ -101,11 +98,10 @@ class MyPaintApp(App):
 
 #Mnist Data -----------------------------------------------------------------------------------------------------------------
 # Mnist Data set from the keras API (mnist.load_data())
+img_rows, img_cols = 28, 28
 batch_size = 20
 num_classes = 10
 epochs = 20
-
-img_rows, img_cols = 28, 28
 
 (x_mnistTrain, y_mnistTrain), (x_mnistTest, y_mnistTest) = mnist.load_data()
 
@@ -170,9 +166,9 @@ x_SelfMade = x_SelfMade/255.0
 # From this website => http://www.ee.surrey.ac.uk/CVSSP/demos/chars74k/#download
 
 #TIMO DATADIR
-#DATADIR = "E:/OneDrive - Universiteit Utrecht/Downloads/EnglishHnd/English/Hnd/Img"
+DATADIR = "E:/OneDrive - Universiteit Utrecht/Downloads/EnglishHnd/English/Hnd/Img"
 #TIM DATADIR (jow vul hier jouw path in en maak van mijne een comment (#))
-DATADIR = ""
+#DATADIR = ""
 
 CATEGORIES = ["0","1","2","3","4","5","6","7","8","9"]
 
@@ -197,17 +193,14 @@ y_74KData = []
 
 for features, labels in TrainingData:
     x_74KData.append(features)
-    y_74KData.append(labels)
+    y_74KData.append(labels)   
 
 x_74KData = np.array(x_74KData).reshape(-1, img_rows, img_cols, 1)
 y_74KData = np.array(y_74KData)
 
 x_74KData = x_74KData/255.0
 
-
-
 #TRAINING CODE  -----------------------------------------------------------------------------------------------------------------
-
 model = Sequential()
 model.add(Conv2D(32, kernel_size=(3, 3),
                  activation='relu',
@@ -251,7 +244,7 @@ for x in range(len(testpredict2)):
     print(testpredict2[x].argmax(), " == ", y_SelfMade[x].argmax())
 
 
-'''#MnistTrain data
+#MnistTrain data
 score3 = model.evaluate(x_mnistTrain, y_mnistTrain, verbose=0)
 print('Test loss:', score3[0])
 print('Test accuracy:', score3[1])
@@ -260,7 +253,7 @@ print('Test accuracy:', score3[1])
 #MnistTest data
 score4 = model.evaluate(x_mnistTest, y_mnistTest, verbose=0)
 print('Test loss:', score4[0])
-print('Test accuracy:', score4[1])'''
+print('Test accuracy:', score4[1])
 
 
 
